@@ -18,8 +18,8 @@ export const createPost = async (
   return response.data;
 };
 
-export const getPost = async (postId: number) => {
-  const response = await axios.get(`${BASE_URL}/posts/${postId}`);
+export const getPost = async (postId: number, owner_id: number) => {
+  const response = await axios.get(`${BASE_URL}/posts/${postId}/${owner_id}`);
 
   console.log(">>>> getPost : ", response);
   return response.data;

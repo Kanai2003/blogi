@@ -63,6 +63,7 @@ function BlogSection({ editable = false }: { editable?: boolean }) {
                         updated_at={blog.updated_at}
                         owner={blog.owner}
                         editable={editable}
+                        onEdit={() => handleFetchBlogData(page)}
                     />
                 ))}
             </div>

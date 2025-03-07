@@ -14,6 +14,7 @@ import { RootState } from './Navbar';
 import { deletePost } from '@/services/post';
 import PostEditorDialog from './PostEditorDialog';
 import parse from 'html-react-parser'
+import { useRouter } from 'next/navigation';
 
 
 export interface BlogCardProps {
@@ -28,10 +29,12 @@ export interface BlogCardProps {
     name: string;
   }
   editable?: boolean
+  onEdit?: () => void;
 }
 
-const BlogCard = ({ title, content, created_at, id, owner, editable = false }: BlogCardProps) => {
+const BlogCard = ({ title, content, created_at, id, owner, editable = false, onEdit }: BlogCardProps) => {
   const [openPostEditor, setOpenPostEditor] = useState<boolean>(false);
+  const router = useRouter();
 
   const formattedDate = new Date(created_at).toLocaleDateString('en-US', {
     year: 'numeric',
@@ -42,13 +45,23 @@ const BlogCard = ({ title, content, created_at, id, owner, editable = false }: B
 
   const userData = useSelector((state: RootState) => state.auth.user);
 
-  const handleDelete = async (postId: number) => {
-    await deletePost(postId, userData?.access_token)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleDelete = async (e:any) => {
+    e.stopPropagation();
+    await deletePost(id, userData?.access_token)
+    if(onEdit) onEdit();
 
   }
 
-  const handleUpdate = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleUpdate = (e:any) => {
+    e.stopPropagation();
     setOpenPostEditor(true);
+    if(onEdit) onEdit();
+  }
+
+  const handleCardClick = () => {
+    router.push(`/post/?owner_id=${owner?.id}&post_id=${id}`)
   }
 
   const optionsDialog = () => {
@@ -62,7 +75,7 @@ const BlogCard = ({ title, content, created_at, id, owner, editable = false }: B
         <DropdownMenuContent>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleUpdate}>Update</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleDelete(id)}>Delete</DropdownMenuItem>
+          <DropdownMenuItem onClick={handleDelete}>Delete</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     )
@@ -70,7 +83,7 @@ const BlogCard = ({ title, content, created_at, id, owner, editable = false }: B
 
   return (
     <>
-      <Card className="shadow-md hover:shadow-lg transition-shadow duration-300 w-full" key={id}>
+      <Card className="shadow-md hover:shadow-lg transition-shadow duration-300 w-full" key={id} onClick={handleCardClick}>
         <CardHeader className="relative">
           <CardTitle>{title}</CardTitle>
           <CardDescription>{formattedDate} |  {owner?.name}</CardDescription>

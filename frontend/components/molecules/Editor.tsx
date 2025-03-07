@@ -6,37 +6,22 @@ export default function BlogEditor({ defaultValue, onChange }: { defaultValue: s
   return (
     <div className='w-full'>
       <Editor
-        apiKey= {process.env.NEXT_PUBLIC_TINY_API_KEY || 'qne4pziu0mgnhstdk62droe2h4a7ut6rxnfkhky8q2iz4mw1'} 
+        apiKey={process.env.NEXT_PUBLIC_TINY_API_KEY || 'qne4pziu0mgnhstdk62droe2h4a7ut6rxnfkhky8q2iz4mw1'}
         initialValue={defaultValue}
         init={{
-          initialValue: defaultValue,
           height: 500,
           menubar: true,
           // plugins: [
-          //     // "image",
-          //     "advlist",
-          //     "autolink",
-          //     "lists",
-          //     "link",
-          //     // "image",
-          //     "charmap",
-          //     "preview",
-          //     "anchor",
-          //     "searchreplace",
-          //     "visualblocks",
-          //     "code",
-          //     "fullscreen",
-          //     "insertdatetime",
-          //     "media",
-          //     "table",
-          //     "code",
-          //     "help",
-          //     "wordcount",
-          //     "anchor",
+          //   "advlist", "autolink", "lists", "link", "charmap", 
+          //   "searchreplace", "visualblocks", "code",  "insertdatetime",
+          //   "media", "table", "code", "help", "wordcount"
           // ],
           toolbar:
-            "undo redo | blocks  | bold italic forecolor | alignleft aligncenter bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent |removeformat | help",
-          content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }"
+            "undo redo | formatselect | bold italic underline strikethrough forecolor backcolor | " +
+            "alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | " +
+            "blockquote subscript superscript removeformat | link image media table | fullscreen preview help",
+          block_formats: "Heading 1=h1; Heading 2=h2; Heading 3=h3; Heading 4=h4; Paragraph=p",
+          content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
         }}
         onEditorChange={(e) => onChange(e)}
       />

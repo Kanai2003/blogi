@@ -71,7 +71,7 @@ const PostEditorDialog: React.FC<PostDialogProps> = ({
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className=" h-fit  max-h-screen max-w-[90vw]" >
+            <DialogContent className="w-[80vw] h-fit max-w-[80vw] max-h-[80vh]" >
                 <DialogHeader>
                     <DialogTitle>{update ? 'Update' : 'Create'} Post</DialogTitle>
                     <DialogDescription>
