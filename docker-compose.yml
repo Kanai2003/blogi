@@ -1,0 +1,41 @@
+
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: blogiuser
+      POSTGRES_PASSWORD: blogipassword
+      POSTGRES_DB: blogidb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://blogiuser:blogipassword@db:5432/blogidb
+      SECRET_KEY: avm2983vm3fimohucq084o5m23akleru0m3485mvowet2y0385ykwlheroqqowierhmvhf
+    depends_on:
+      - db
+    volumes:
+      - ./backend:/app
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next  
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:8000
+
+volumes:
+  postgres-data:
