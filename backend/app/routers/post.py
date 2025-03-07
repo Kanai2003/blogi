@@ -32,9 +32,9 @@ def create_post(post: PostSchema.PostCreate, current_user: UserModel.User = Depe
   db.refresh(db_post)
   return db_post
 
-@router.get("/{post_id}", response_model=PostSchema.Post)
-def read_post(post_id: int, db: Session = Depends(database.get_db)):
-  db_post = db.query(PostModel.Post).filter(PostModel.Post.id == post_id).first()
+@router.get("/{post_id}/{owner_id}", response_model=PostSchema.Post)
+def read_post(post_id: int, owner_id:int,  db: Session = Depends(database.get_db)):
+  db_post = db.query(PostModel.Post).filter(PostModel.Post.id == post_id, PostModel.Post.owner_id == owner_id).first()
   if not db_post:
     raise HTTPException(status_code=404, detail="Post not found")
   return db_post
