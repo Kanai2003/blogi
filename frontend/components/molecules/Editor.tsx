@@ -6,7 +6,7 @@ export default function BlogEditor({ defaultValue, onChange }: { defaultValue: s
   return (
     <div className='w-full'>
       <Editor
-        apiKey='qne4pziu0mgnhstdk62droe2h4a7ut6rxnfkhky8q2iz4mw1'
+        apiKey= {process.env.NEXT_PUBLIC_TINY_API_KEY || 'qne4pziu0mgnhstdk62droe2h4a7ut6rxnfkhky8q2iz4mw1'} 
         initialValue={defaultValue}
         init={{
           initialValue: defaultValue,

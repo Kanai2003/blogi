@@ -36,6 +36,7 @@ services:
       - /app/.next  
     environment:
       NEXT_PUBLIC_API_URL: http://backend:8000
+      NEXT_PUBLIC_TINY_API_KEY: qne4pziu0mgnhstdk62droe2h4a7ut6rxnfkhky8q2iz4mw1
 
 volumes:
   postgres-data:
