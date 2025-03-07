@@ -18,6 +18,12 @@ def get_current_user(token: str = Header(None), dp: Session = Depends(database.g
     raise HTTPException(status_code=401, detail="User not found")
   return user
 
+
+@router.get("/{owner_id}")
+def read_my_posts(owner_id:int, db: Session = Depends(database.get_db)):
+    posts = db.query(PostModel.Post).filter(PostModel.Post.owner_id == owner_id).order_by(PostModel.Post.created_at.desc()).all()
+    return posts
+
 @router.post("/", response_model=PostSchema.Post)
 def create_post(post: PostSchema.PostCreate, current_user: UserModel.User = Depends(get_current_user), db: Session = Depends(database.get_db)):
   db_post = PostModel.Post(title=post.title, content=post.content, owner_id=current_user.id)
@@ -58,7 +64,7 @@ def delete_post(post_id: int, current_user: UserModel.User = Depends(get_current
   return {"message": "Post deleted successfully"}
 
 @router.get("/")
-def read_all_posts(db: Session = Depends(database.get_db), limit: int = 50, page: int = 1):
+def read_all_posts(db: Session = Depends(database.get_db), limit: int = 10, page: int = 1):
   offset = (page - 1) * limit
   posts = db.query(PostModel.Post).join(UserModel.User).order_by(PostModel.Post.created_at.desc()).offset(offset).limit(limit).all()
   return [
@@ -66,6 +72,8 @@ def read_all_posts(db: Session = Depends(database.get_db), limit: int = 50, page
       "id": post.id,
       "title": post.title,
       "content": post.content,
+      "created_at": post.created_at,
+      "updated_at": post.updated_at,
       "owner": {
         "id": post.owner.id,
         "username": post.owner.username,
