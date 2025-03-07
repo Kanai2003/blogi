@@ -42,6 +42,7 @@ const Login: React.FC = () => {
 
     try {
       const response = await loginUser(formData);
+      localStorage.setItem("token", response?.access_token);
       setFormData({ username: "", password: "" });
       dispatch(login(response));
       router.push("/dashboard");

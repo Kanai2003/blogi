@@ -1,10 +1,8 @@
 import React from 'react'
-
+import DashboardPage from '@/components/organisms/DashboardPage'
 
 function page() {
-  return (
-    <div>Dashboard</div>
-  )
+  return <DashboardPage />
 }
 
 export default page

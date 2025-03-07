@@ -1,3 +1,5 @@
+"use client"
+
 import axios from "axios";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
@@ -16,7 +18,6 @@ export const loginUser = async (formData: {
       withCredentials: true,
     }
   );
-  localStorage.setItem("token", response.data.access_token);
   console.log(">>>>loginUser : ", response)
   return response.data;
 };
