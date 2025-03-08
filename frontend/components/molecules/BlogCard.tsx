@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from './Navbar';
 import { deletePost } from '@/services/post';
 import PostEditorDialog from './PostEditorDialog';
-import parse from 'html-react-parser'
+// import parse from 'html-react-parser'
 import { useRouter } from 'next/navigation';
 
 
@@ -93,10 +93,10 @@ const BlogCard = ({ title, content, created_at, id, owner, editable = false, onE
           </div>
         </CardHeader>
         <CardContent>
-          {/* <div className="w-full ">
+          <div className="w-full ">
             <div dangerouslySetInnerHTML={{ __html: content }} />
-          </div> */}
-          {parse(content)}
+          </div>
+          {/* {parse(content)} */}
         </CardContent>
       </Card>
       <PostEditorDialog open={openPostEditor} onOpenChange={() => setOpenPostEditor(false)} title={title} content={content} update postId={id} />

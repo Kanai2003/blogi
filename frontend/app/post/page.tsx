@@ -1,11 +1,10 @@
-import PostPage from '@/components/organisms/PostPage'
-import React from 'react'
+import PostPage from "@/components/organisms/PostPage";
+import { Suspense } from "react";
 
-
-function page() {
-    return (
-        <PostPage />
-    )
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading post...</div>}>
+      <PostPage />
+    </Suspense>
+  );
 }
-
-export default page

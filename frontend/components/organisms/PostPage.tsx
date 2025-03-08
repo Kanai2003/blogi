@@ -4,7 +4,6 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getPost } from "@/services/post";
-import parse from "html-react-parser";
 
 interface Post {
     id?: string;
@@ -23,17 +22,18 @@ const PostPage = () => {
     const [post, setPost] = useState<Post | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
 
-    const formattedDate = (date: string) => new Date(date).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-    });
-
+    const formattedDate = (date: string | undefined) => {
+        if (!date) return "";
+        return new Date(date).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        });
+    };
 
     const fetchPost = async (postId: string, ownerId: string) => {
         try {
             const response = await getPost(Number(postId), Number(ownerId));
-
             setPost(response);
         } catch (error) {
             console.error("Failed to fetch post:", error);
@@ -58,10 +58,10 @@ const PostPage = () => {
             ) : post ? (
                 <div className="p-8">
                     <h1 className="text-2xl font-semibold mb-4">{post.title}</h1>
-                    <h6 className="text-gray">{formattedDate(post?.updated_at || post.created_at || "")}  </h6>
-                    <div className="prose lg:prose-xl mt-8">
-                        {parse(post?.content || "")}
-                    </div>
+                    <h6 className="text-gray-500">
+                        {formattedDate(post?.updated_at || post?.created_at)}
+                    </h6>
+                    <div className="prose lg:prose-xl mt-8" dangerouslySetInnerHTML={{ __html: post?.content || "" }} />
                 </div>
             ) : (
                 <div className="flex justify-center items-center h-full">
