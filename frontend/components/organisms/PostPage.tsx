@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getPost } from "@/services/post";
 
+import Image from "next/image";
+
 interface Post {
     id?: string;
     ownerId?: string;
@@ -57,6 +59,16 @@ const PostPage = () => {
                 </div>
             ) : post ? (
                 <div className="p-8">
+                    <div className="flex w-screen justify-center items-center">
+                        <Image
+                            src="/knowledge.jpg"
+                            alt="Hero Image"
+                            width={600}
+                            height={400}
+                            className="rounded-lg shadow-lg w-1/2 mb-10"
+                            priority
+                        />
+                    </div>
                     <h1 className="text-2xl font-semibold mb-4">{post.title}</h1>
                     <h6 className="text-gray-500">
                         {formattedDate(post?.updated_at || post?.created_at)}
