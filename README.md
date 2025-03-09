@@ -37,3 +37,6 @@ If you have any service running on these ports, please stop them before running 
 
 ## Access it!
 Open your browser and navigate to `http://localhost:3000/` to view the application. and `http://localhost:8000/docs` to view the FastAPI Swagger UI.
+
+## Credentials 
+By default you can login with username: `username` and password: `password`
